@@ -49,4 +49,15 @@ public class ReminderController {
         return new ResponseEntity<String>(info, HttpStatus.OK);
     }
 
+    @GetMapping(value="/doReminder/{id}")
+    public ResponseEntity<String> doReminder(@PathVariable String id){
+        String info = accountService.doReminder(id);
+
+        if(!info.equals("null")){
+            reminderService.putDone(info);
+        }
+
+        return new ResponseEntity<String>(info, HttpStatus.OK);
+    }
+
 }

@@ -5,8 +5,7 @@ import com.example.piinfo.model.Reminder;
 import com.example.piinfo.repository.AccountRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class AccountService {
@@ -47,6 +46,65 @@ public class AccountService {
             account.setReminders(reminders);
             accountRepository.save(account);
         }
+    }
+
+    public String doReminder(String id){
+
+        String info = "No hay recordatorio activo";
+
+        Optional<Account> obj = accountRepository.findById(id);
+        if(!obj.isPresent()) {
+            return "No existe este usuario";
+        }
+        Account account = obj.get();
+
+        List<Reminder> reminders = account.getReminders();
+
+        Calendar c1 = Calendar.getInstance();
+
+        String actualDay = Integer.toString(c1.get(Calendar.DATE));
+        String actualMonth = Integer.toString(c1.get(Calendar.MONTH) + 1);
+        String actualYear = Integer.toString(c1.get(Calendar.YEAR));
+
+        String actualHour = Integer.toString(c1.get(Calendar.HOUR_OF_DAY));
+        String actualMinute = Integer.toString(c1.get(Calendar.MINUTE));
+
+        actualDay = dayTimeVerify(actualDay);
+        actualMonth = dayTimeVerify(actualMonth);
+        actualHour = dayTimeVerify(actualHour);
+        actualMinute = dayTimeVerify(actualMinute);
+
+        String date = actualDay + "/" + actualMonth + "/" + actualYear;
+        String time = actualHour + ":" + actualMinute;
+        
+        List<Reminder> newReminders = new ArrayList<Reminder>();
+
+        for (Reminder r : reminders) {
+            if(r.getDate().equals(date) && r.getTime().equals(time) && r.getDone() == 0){
+                r.setDone(1);
+                newReminders.add(r);
+                info = r.getId();
+            }else{
+                newReminders.add(r);
+            }
+        }
+
+        account.setReminders(newReminders);
+        accountRepository.save(account);
+
+        return info;
+
+    }
+
+
+
+
+    public String dayTimeVerify(String day) {
+
+        if(day.length() == 1){
+            day = "0" + day;
+        }
+        return day;
     }
 
 }

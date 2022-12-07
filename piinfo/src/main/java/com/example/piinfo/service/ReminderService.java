@@ -32,6 +32,15 @@ public class ReminderService {
         return reminders;
     }
 
+    // Obtener cuenta
+    public Reminder get(String id){
+        Optional<Reminder> obj = reminderRepository.findById(id);
+        if(obj.isPresent()){
+            return obj.get();
+        }
+        return null;
+    }
+
     // Crear cuenta (solo para prueba, no es parte del sistema)
     public String verify(String date) {
 
@@ -91,11 +100,12 @@ public class ReminderService {
         String date2 = day + "/" + month + "/" + year;
         String time = hour + ":" + minute;
 
-        Reminder reminder = new Reminder(description, date2, time);
+        Reminder reminder = new Reminder(description, date2, time, 0);
         reminder = reminderRepository.save(reminder);
 
         return reminder;
     }
+
 
     public static boolean validarFecha(String fecha) {
         try {
@@ -110,32 +120,8 @@ public class ReminderService {
 
     public String dayTimeVerify(String day) {
 
-        if(day.equals("1")){
-            day = "01";
-        }
-        if(day.equals("2")){
-            day = "02";
-        }
-        if(day.equals("3")){
-            day = "03";
-        }
-        if(day.equals("4")){
-            day = "04";
-        }
-        if(day.equals("5")){
-            day = "05";
-        }
-        if(day.equals("6")){
-            day = "06";
-        }
-        if(day.equals("7")){
-            day = "07";
-        }
-        if(day.equals("8")){
-            day = "08";
-        }
-        if(day.equals("9")){
-            day = "09";
+        if(day.length() == 1){
+            day = "0" + day;
         }
         return day;
     }
@@ -182,13 +168,17 @@ public class ReminderService {
         return month;
     }
 
-    // Obtener cuenta
-    public Reminder get(String id){
-        Optional<Reminder> obj = reminderRepository.findById(id);
-        if(obj.isPresent()){
-            return obj.get();
-        }
-        return null;
-    }
 
+    public void putDone(String id) {
+
+        Optional<Reminder> obj = reminderRepository.findById(id);
+        if(obj.isEmpty()){
+            return;
+        }
+
+        Reminder reminder = obj.get();
+        reminder.setDone(1);
+        reminderRepository.save(reminder);
+
+    }
 }

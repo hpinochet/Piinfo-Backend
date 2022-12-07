@@ -15,10 +15,13 @@ public class Reminder {
 
     private String time;
 
-    public Reminder(String reminder_description, String date, String time) {
+    private Integer done;
+
+    public Reminder(String reminder_description, String date, String time, Integer done) {
         this.reminder_description = reminder_description;
         this.date = date;
         this.time = time;
+        this.done = done;
     }
 
     public String getId() {
@@ -51,5 +54,13 @@ public class Reminder {
 
     public void setTime(String time) {
         this.time = time;
+    }
+
+    public Integer getDone() {
+        return done;
+    }
+
+    public void setDone(Integer done) {
+        this.done = done;
     }
 }
