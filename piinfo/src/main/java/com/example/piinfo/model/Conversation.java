@@ -13,16 +13,16 @@ public class Conversation {
 
     private String time;
 
-    private String user_conversation;
+    private String who;
 
-    private String bot_conversation;
+    private String message;
 
-    public Conversation(String id, String date, String time, String user_conversation, String bot_conversation) {
+    public Conversation(String id, String date, String time, String who, String message) {
         this.id = id;
         this.date = date;
         this.time = time;
-        this.user_conversation = user_conversation;
-        this.bot_conversation = bot_conversation;
+        this.who = who;
+        this.message = message;
     }
 
     public String getId() {
@@ -49,19 +49,19 @@ public class Conversation {
         this.time = time;
     }
 
-    public String getUser_conversation() {
-        return user_conversation;
+    public String getWho() {
+        return who;
     }
 
-    public void setUser_conversation(String user_conversation) {
-        this.user_conversation = user_conversation;
+    public void setWho(String who) {
+        this.who = who;
     }
 
-    public String getBot_conversation() {
-        return bot_conversation;
+    public String getMessage() {
+        return message;
     }
 
-    public void setBot_conversation(String bot_conversation) {
-        this.bot_conversation = bot_conversation;
+    public void setMessage(String message) {
+        this.message = message;
     }
 }
