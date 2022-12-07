@@ -1,6 +1,7 @@
 package com.example.piinfo.Controller;
 
 import com.example.piinfo.model.Reminder;
+import com.example.piinfo.service.AccountService;
 import com.example.piinfo.service.ReminderService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,9 +15,11 @@ import java.util.List;
 public class ReminderController {
 
     private final ReminderService reminderService;
+    private final AccountService accountService;
 
-    public ReminderController(ReminderService reminderService) {
+    public ReminderController(ReminderService reminderService, AccountService accountService) {
         this.reminderService = reminderService;
+        this.accountService = accountService;
     }
 
     //Obtener todas las cuentas
@@ -32,11 +35,18 @@ public class ReminderController {
         return reminderService.get(id);
     }
 
-    //Guardar cuenta (no es parte del sistema, solo para probar)
-    @PostMapping(value="/save")
-    public ResponseEntity<Reminder> save(@RequestBody Reminder reminder){
-        Reminder obj = reminderService.save(reminder);
-        return new ResponseEntity<Reminder>(obj, HttpStatus.OK);
+
+    @PostMapping(value="/save/{id}")
+    public ResponseEntity<String> save(@PathVariable String id, @RequestParam ("description") String description,
+                                         @RequestParam ("date") String date){
+
+        String info = reminderService.verify(date);
+        if(info.equals("El recordatorio esta estructurado")){
+                Reminder reminder = reminderService.save(description,date);
+                accountService.saveReminder(id,reminder);
+        }
+
+        return new ResponseEntity<String>(info, HttpStatus.OK);
     }
 
 }

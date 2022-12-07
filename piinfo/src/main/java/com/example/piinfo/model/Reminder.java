@@ -15,8 +15,7 @@ public class Reminder {
 
     private String time;
 
-    public Reminder(String id, String reminder_description, String date, String time) {
-        this.id = id;
+    public Reminder(String reminder_description, String date, String time) {
         this.reminder_description = reminder_description;
         this.date = date;
         this.time = time;

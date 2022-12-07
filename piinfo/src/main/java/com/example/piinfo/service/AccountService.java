@@ -1,6 +1,7 @@
 package com.example.piinfo.service;
 
 import com.example.piinfo.model.Account;
+import com.example.piinfo.model.Reminder;
 import com.example.piinfo.repository.AccountRepository;
 import org.springframework.stereotype.Service;
 
@@ -35,6 +36,17 @@ public class AccountService {
             return obj.get();
         }
         return null;
+    }
+
+    public void saveReminder(String id, Reminder reminder){
+        Optional<Account> obj = accountRepository.findById(id);
+        if(obj.isPresent()) {
+            Account account = obj.get();
+            List<Reminder> reminders = account.getReminders();
+            reminders.add(reminder);
+            account.setReminders(reminders);
+            accountRepository.save(account);
+        }
     }
 
 }
