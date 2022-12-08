@@ -1,5 +1,6 @@
 package com.example.piinfo.Controller;
 
+import com.example.piinfo.model.Movement;
 import com.example.piinfo.model.Reminder;
 import com.example.piinfo.service.AccountService;
 import com.example.piinfo.service.ReminderService;
@@ -58,6 +59,12 @@ public class ReminderController {
         }
 
         return new ResponseEntity<String>(info, HttpStatus.OK);
+    }
+
+    @GetMapping(value="/getAll/{id}")
+    public List<Reminder> getAllUseReminder(@PathVariable String id){
+        List<Reminder> UserReminder = accountService.getAllUserReminder(id);
+        return UserReminder;
     }
 
 }

@@ -75,7 +75,6 @@ public class AlertService {
         String AUTH_TOKEN = "5e7f428c59068a70630f5570d3a43b79";
 
         String numberCellMessage = "whatsapp:" + numberCell;
-        System.out.println(numberCellMessage);
         String botMessage = "ALERTA: Se a detectado una alterta de tipo " + alert_description + " en el hogar";
 
 

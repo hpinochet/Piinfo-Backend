@@ -49,4 +49,11 @@ public class ConversationController {
         return new ResponseEntity<String>(info, HttpStatus.OK);
     }
 
+    @GetMapping(value="/getAll/{id}")
+    public List<Conversation> getAllUserConversation(@PathVariable String id){
+        List<Conversation> UserConversation = accountService.getAllUserConversation(id);
+        return UserConversation;
+    }
+
+
 }

@@ -1,6 +1,7 @@
 package com.example.piinfo.Controller;
 
 import com.example.piinfo.model.Alert;
+import com.example.piinfo.model.Conversation;
 import com.example.piinfo.model.Movement;
 import com.example.piinfo.service.AccountService;
 import com.example.piinfo.service.AlertService;
@@ -51,6 +52,11 @@ public class AlertController {
         return new ResponseEntity<String>(info, HttpStatus.OK);
     }
 
+    @GetMapping(value="/getAll/{id}")
+    public List<Alert> getAllUserAlert(@PathVariable String id){
+        List<Alert> UserAlert = accountService.getAllUserAlert(id);
+        return UserAlert;
+    }
 
 
 

@@ -1,6 +1,7 @@
 package com.example.piinfo.Controller;
 
 
+import com.example.piinfo.model.Conversation;
 import com.example.piinfo.model.Movement;
 import com.example.piinfo.model.Reminder;
 import com.example.piinfo.service.AccountService;
@@ -47,6 +48,12 @@ public class MovementController {
         String info = "Movimiento creado";
 
         return new ResponseEntity<String>(info, HttpStatus.OK);
+    }
+
+    @GetMapping(value="/getAll/{id}")
+    public List<Movement> getAllUserMovement(@PathVariable String id){
+        List<Movement> UserMovement = accountService.getAllUserMovement(id);
+        return UserMovement;
     }
 
 }

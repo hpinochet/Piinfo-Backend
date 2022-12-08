@@ -191,4 +191,58 @@ public class AccountService {
     }
 
 
+    public List<Conversation> getAllUserConversation(String id) {
+
+        Optional<Account> obj = accountRepository.findById(id);
+        List<Conversation> userConversation = new ArrayList<Conversation>();
+
+        if(obj.isPresent()) {
+            Account account = obj.get();
+            userConversation = account.getConversations();
+        }
+
+        return userConversation;
+
+    }
+
+    public List<Movement> getAllUserMovement(String id) {
+
+        Optional<Account> obj = accountRepository.findById(id);
+        List<Movement> userMovement = new ArrayList<Movement>();
+
+        if(obj.isPresent()) {
+            Account account = obj.get();
+            userMovement = account.getMovements();
+        }
+
+        return userMovement;
+
+    }
+
+    public List<Reminder> getAllUserReminder(String id) {
+
+        Optional<Account> obj = accountRepository.findById(id);
+        List<Reminder> userReminder = new ArrayList<Reminder>();
+
+        if(obj.isPresent()) {
+            Account account = obj.get();
+            userReminder = account.getReminders();
+        }
+
+        return userReminder;
+
+    }
+
+    public List<Alert> getAllUserAlert(String id) {
+
+        Optional<Account> obj = accountRepository.findById(id);
+        List<Alert> userAlert = new ArrayList<Alert>();
+
+        if(obj.isPresent()) {
+            Account account = obj.get();
+            userAlert = account.getAlerts();
+        }
+
+        return userAlert;
+    }
 }
