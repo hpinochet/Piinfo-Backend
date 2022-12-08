@@ -3,6 +3,8 @@ package com.example.piinfo.service;
 import com.example.piinfo.model.Alert;
 import com.example.piinfo.model.Movement;
 import com.example.piinfo.repository.AlertRepository;
+import com.twilio.Twilio;
+import com.twilio.rest.api.v2010.account.Message;
 import org.springframework.stereotype.Service;
 
 import java.util.Calendar;
@@ -67,4 +69,23 @@ public class AlertService {
         return day;
     }
 
+    public void sendAlert(String numberCell, String alert_description) {
+
+        String ACCOUNT_SID = "AC78c7287cc82f96e1ac6d2c0d55f74c04";
+        String AUTH_TOKEN = "5e7f428c59068a70630f5570d3a43b79";
+
+        String numberCellMessage = "whatsapp:" + numberCell;
+        System.out.println(numberCellMessage);
+        String botMessage = "ALERTA: Se a detectado una alterta de tipo " + alert_description + " en el hogar";
+
+
+        Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
+        Message message = Message.creator(
+                new com.twilio.type.PhoneNumber(numberCellMessage),
+                        new com.twilio.type.PhoneNumber("whatsapp:+14155238886"),
+                            botMessage)
+                    .create();
+
+
+    }
 }

@@ -167,6 +167,20 @@ public class AccountService {
 
     }
 
+    public String numberCell(String id){
+
+        String numberCell = "";
+
+        Optional<Account> obj = accountRepository.findById(id);
+        if(obj.isPresent()) {
+            Account account = obj.get();
+            numberCell = account.getPhone_number();
+        }
+
+
+        return numberCell;
+
+    }
 
     public String dayTimeVerify(String day) {
 

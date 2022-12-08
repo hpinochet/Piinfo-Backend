@@ -43,6 +43,9 @@ public class AlertController {
         Alert alert = alertService.save(alert_description);
         accountService.saveAlert(id,alert);
 
+        String numberCell = accountService.numberCell(id);
+        alertService.sendAlert(numberCell, alert_description);
+
         String info = "Alerta creada";
 
         return new ResponseEntity<String>(info, HttpStatus.OK);
