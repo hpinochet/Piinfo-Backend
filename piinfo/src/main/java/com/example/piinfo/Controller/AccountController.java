@@ -2,6 +2,7 @@ package com.example.piinfo.Controller;
 
 import com.example.piinfo.model.Account;
 import com.example.piinfo.service.AccountService;
+import com.example.piinfo.service.Product_UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,9 +15,11 @@ import java.util.List;
 public class AccountController {
 
     private final AccountService accountService;
+    private final Product_UserService product_userService;
 
-    public AccountController(AccountService accountService) {
+    public AccountController(AccountService accountService , Product_UserService product_userService) {
         this.accountService = accountService;
+        this.product_userService = product_userService;
     }
 
     //Obtener todas las cuentas
@@ -34,9 +37,19 @@ public class AccountController {
 
     //Guardar cuenta (no es parte del sistema, solo para probar)
     @PostMapping(value="/save")
-    public ResponseEntity<Account> save(@RequestBody Account account){
+    public ResponseEntity<String> save(@RequestBody Account account){
+
+        String info = product_userService.verifyProduct(account.getProduct_number());
+
+        if(info.equals("No existe el producto")){
+            return new ResponseEntity<String>("El codigo de producto ingresado no existe", HttpStatus.OK);
+        }
+
         Account obj = accountService.save(account);
-        return new ResponseEntity<Account>(obj, HttpStatus.OK);
+
+        product_userService.registerUserProduct(info, obj.getId());
+
+        return new ResponseEntity<String>("La cuenta a sido registrada correctamente", HttpStatus.OK);
     }
 
     // Iniciar sesion

@@ -13,8 +13,7 @@ public class Product_User {
 
     private String id_user;
 
-    public Product_User(String id, String product_number, String id_user) {
-        this.id = id;
+    public Product_User(String product_number, String id_user) {
         this.product_number = product_number;
         this.id_user = id_user;
     }
