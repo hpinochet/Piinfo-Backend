@@ -44,15 +44,16 @@ public class ReminderService {
     // Crear cuenta (solo para prueba, no es parte del sistema)
     public String verify(String date) {
 
-        // Ejemplo "el 10 de febrero del 2022 a las 23 5"
+        // Ejemplo "el 10 de febrero del 2022 a las 5:05"
 
         // Split
         String[] words = date.split(" ");
+        String[] date2 = words[8].split(":");
 
         System.out.println(words.length);
 
         // Structure verify
-        if(words.length != 10){
+        if(words.length != 9){
             return "Indique nuevamente el recordatorio con la estrucutura correcta";
         }
         if(!words[0].equals("el") && !words[2].equals("de") && !words[4].equals("del") && !words[6].equals("a")
@@ -60,24 +61,18 @@ public class ReminderService {
             return "Indique nuevamente el recordatorio con la estrucutura correcta";
         }
 
-        //SimpleDateFormat formatter3 = new SimpleDateFormat("hh:mm");
-        //Date out_hour = formatter3.parse("18:00");
-        //SimpleDateFormat formatter1 = new SimpleDateFormat("yyyy/MM/dd");
-        //Date date1 = formatter1.parse(justificativo.getFecha());
-
         // Date process
 
         String day = dayTimeVerify(words[1]);
         String month = monthVerify(words[3]);
         String year = words[5];
 
-        String hour = dayTimeVerify(words[8]);
-        String minute = dayTimeVerify(words[9]);
+        String hour = dayTimeVerify(date2[0]);
+        String minute = dayTimeVerify(date2[1]);
 
-        String date2 = day + "/" + month + "/" + year;
-        String time = hour + minute;
+        String date3 = day + "/" + month + "/" + year;
 
-        Boolean res = validarFecha(date2);
+        Boolean res = validarFecha(date3);
         if(!res) {
             return "Indique una fecha valida en el recordatorio";
         }
@@ -89,18 +84,19 @@ public class ReminderService {
 
         // Date extraction
         String[] words = date.split(" ");
+        String[] date2 = words[8].split(":");
 
         String day = dayTimeVerify(words[1]);
         String month = monthVerify(words[3]);
         String year = words[5];
 
-        String hour = dayTimeVerify(words[8]);
-        String minute = dayTimeVerify(words[9]);
+        String hour = dayTimeVerify(date2[0]);
+        String minute = dayTimeVerify(date2[1]);
 
-        String date2 = day + "/" + month + "/" + year;
+        String date3 = day + "/" + month + "/" + year;
         String time = hour + ":" + minute;
 
-        Reminder reminder = new Reminder(description, date2, time, 0);
+        Reminder reminder = new Reminder(description, date3, time, 0);
         reminder = reminderRepository.save(reminder);
 
         return reminder;
