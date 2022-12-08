@@ -1,6 +1,8 @@
 package com.example.piinfo.Controller;
 
 import com.example.piinfo.model.Conversation;
+import com.example.piinfo.model.Movement;
+import com.example.piinfo.service.AccountService;
 import com.example.piinfo.service.ConversationService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,9 +16,11 @@ import java.util.List;
 public class ConversationController {
 
     private final ConversationService conversationService;
+    private final AccountService accountService;
 
-    public ConversationController(ConversationService conversationService) {
+    public ConversationController(ConversationService conversationService, AccountService accountService) {
         this.conversationService = conversationService;
+        this.accountService = accountService;
     }
 
     //Obtener todas las cuentas
@@ -32,11 +36,17 @@ public class ConversationController {
         return conversationService.get(id);
     }
 
-    //Guardar cuenta (no es parte del sistema, solo para probar)
-    @PostMapping(value="/save")
-    public ResponseEntity<Conversation> save(@RequestBody Conversation conversation){
-        Conversation obj = conversationService.save(conversation);
-        return new ResponseEntity<Conversation>(obj, HttpStatus.OK);
+
+    @PostMapping(value="/save/{id}")
+    public ResponseEntity<String> save(@PathVariable String id, @RequestParam ("message") String message,
+                                       @RequestParam ("who") String who){
+
+        Conversation conversation = conversationService.save(message,who);
+        accountService.saveConversation(id,conversation);
+
+        String info = "Mensaje creado";
+
+        return new ResponseEntity<String>(info, HttpStatus.OK);
     }
 
 }

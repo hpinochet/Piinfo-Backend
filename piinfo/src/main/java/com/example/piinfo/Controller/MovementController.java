@@ -2,6 +2,8 @@ package com.example.piinfo.Controller;
 
 
 import com.example.piinfo.model.Movement;
+import com.example.piinfo.model.Reminder;
+import com.example.piinfo.service.AccountService;
 import com.example.piinfo.service.MovementService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,9 +17,11 @@ import java.util.List;
 public class MovementController {
 
     private final MovementService movementService;
+    private final AccountService accountService;
 
-    public MovementController(MovementService movementService) {
+    public MovementController(MovementService movementService, AccountService accountService) {
         this.movementService = movementService;
+        this.accountService = accountService;
     }
 
     //Obtener todas las cuentas
@@ -33,11 +37,16 @@ public class MovementController {
         return movementService.get(id);
     }
 
-    //Guardar cuenta (no es parte del sistema, solo para probar)
-    @PostMapping(value="/save")
-    public ResponseEntity<Movement> save(@RequestBody Movement movement){
-        Movement obj = movementService.save(movement);
-        return new ResponseEntity<Movement>(obj, HttpStatus.OK);
+
+    @PostMapping(value="/save/{id}")
+    public ResponseEntity<String> save(@PathVariable String id, @RequestParam ("place") String place){
+
+        Movement movement = movementService.save(place);
+        accountService.saveMovement(id,movement);
+
+        String info = "Movimiento creado";
+
+        return new ResponseEntity<String>(info, HttpStatus.OK);
     }
 
 }

@@ -3,7 +3,7 @@ package com.example.piinfo.model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collation = "Movement")
+@Document(collection = "Movement")
 public class Movement {
 
     @Id
@@ -15,8 +15,7 @@ public class Movement {
 
     private String time;
 
-    public Movement(String id, String place, String date, String time) {
-        this.id = id;
+    public Movement(String place, String date, String time) {
         this.place = place;
         this.date = date;
         this.time = time;

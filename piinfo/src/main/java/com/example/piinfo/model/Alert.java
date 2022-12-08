@@ -15,8 +15,7 @@ public class Alert {
 
     private String time;
 
-    public Alert(String id, String alert_description, String date, String time) {
-        this.id = id;
+    public Alert(String alert_description, String date, String time) {
         this.alert_description = alert_description;
         this.date = date;
         this.time = time;

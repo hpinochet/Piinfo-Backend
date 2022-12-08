@@ -39,4 +39,15 @@ public class AccountController {
         return new ResponseEntity<Account>(obj, HttpStatus.OK);
     }
 
+    // Iniciar sesion
+    @GetMapping(value="/login")
+    public ResponseEntity<String> login(@RequestParam ("email") String email,
+                                        @RequestParam ("password") String password){
+
+        String info = accountService.login(email,password);
+
+        return new ResponseEntity<String>(info, HttpStatus.OK);
+
+    }
+
 }

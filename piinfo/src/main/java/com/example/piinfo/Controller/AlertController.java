@@ -1,6 +1,8 @@
 package com.example.piinfo.Controller;
 
 import com.example.piinfo.model.Alert;
+import com.example.piinfo.model.Movement;
+import com.example.piinfo.service.AccountService;
 import com.example.piinfo.service.AlertService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,9 +16,11 @@ import java.util.List;
 public class AlertController {
 
     private final AlertService alertService;
+    private final AccountService accountService;
 
-    public AlertController(AlertService alertService) {
+    public AlertController(AlertService alertService, AccountService accountService) {
         this.alertService = alertService;
+        this.accountService = accountService;
     }
 
     //Obtener todas las cuentas
@@ -32,12 +36,20 @@ public class AlertController {
         return alertService.get(id);
     }
 
-    //Guardar cuenta (no es parte del sistema, solo para probar)
     @PostMapping(value="/save/{id}")
-    public ResponseEntity<Alert> save(@PathVariable String id, @RequestBody Alert alert){
-        Alert obj = alertService.save(alert);
-        return new ResponseEntity<Alert>(obj, HttpStatus.OK);
+    public ResponseEntity<String> save(@PathVariable String id,
+                                       @RequestParam ("alert_description") String alert_description){
+
+        Alert alert = alertService.save(alert_description);
+        accountService.saveAlert(id,alert);
+
+        String info = "Alerta creada";
+
+        return new ResponseEntity<String>(info, HttpStatus.OK);
     }
+
+
+
 
 }
 

@@ -1,9 +1,12 @@
 package com.example.piinfo.service;
 
-import com.example.piinfo.model.Account;
-import com.example.piinfo.model.Reminder;
+import com.example.piinfo.model.*;
 import com.example.piinfo.repository.AccountRepository;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.*;
 
@@ -76,7 +79,7 @@ public class AccountService {
 
         String date = actualDay + "/" + actualMonth + "/" + actualYear;
         String time = actualHour + ":" + actualMinute;
-        
+
         List<Reminder> newReminders = new ArrayList<Reminder>();
 
         for (Reminder r : reminders) {
@@ -96,7 +99,73 @@ public class AccountService {
 
     }
 
+    public void saveMovement(String id, Movement movement) {
 
+        Optional<Account> obj = accountRepository.findById(id);
+        if(obj.isPresent()) {
+            Account account = obj.get();
+            List<Movement> movements = account.getMovements();
+            movements.add(movement);
+            account.setMovements(movements);
+            accountRepository.save(account);
+        }
+
+    }
+
+    public void saveAlert(String id, Alert alert) {
+
+        Optional<Account> obj = accountRepository.findById(id);
+        if(obj.isPresent()) {
+            Account account = obj.get();
+            List<Alert> alerts = account.getAlerts();
+            alerts.add(alert);
+            account.setAlerts(alerts);
+            accountRepository.save(account);
+        }
+
+    }
+
+    public void saveConversation(String id, Conversation conversation) {
+
+        Optional<Account> obj = accountRepository.findById(id);
+        if(obj.isPresent()) {
+            Account account = obj.get();
+            List<Conversation> conversations = account.getConversations();
+            conversations.add(conversation);
+            account.setConversations(conversations);
+            accountRepository.save(account);
+        }
+
+    }
+
+
+    public String login(String email, String password){
+
+        List<Account> accounts = accountRepository.findAll();
+
+        int userFlag = 0;
+        int passwordFlag = 0;
+        String Id = "";
+
+        for (Account a : accounts) {
+            if(a.getEmail().equals(email)){
+                userFlag = 1;
+                if(a.getPassword().equals(password)){
+                    passwordFlag = 1;
+                    Id = a.getId();
+                }
+            }
+        }
+
+        if(userFlag == 0){
+            return "No existe una cuenta con este RUT";
+        }
+        if(passwordFlag == 0){
+            return"La contraseña de la cuenta es incorrecta";
+        }
+        return Id;
+
+    }
 
 
     public String dayTimeVerify(String day) {
@@ -106,5 +175,6 @@ public class AccountService {
         }
         return day;
     }
+
 
 }
