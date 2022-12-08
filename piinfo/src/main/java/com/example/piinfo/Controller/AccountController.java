@@ -63,4 +63,21 @@ public class AccountController {
 
     }
 
+    @PutMapping(value="/put/{id}")
+    public ResponseEntity<String> editAccount(@PathVariable String id, @RequestParam ("name") String name,
+                                              @RequestParam ("email") String email,
+                                              @RequestParam ("password") String password,
+                                              @RequestParam ("cellNumber") String cellNumber){
+
+        if(name == null || email == null || password == null || cellNumber == null){
+            return new ResponseEntity<String>("Error: Envie todos los datos necesarios", HttpStatus.OK);
+        }
+
+        accountService.editAccount(id, name, email, password, cellNumber);
+
+        return new ResponseEntity<String>("La cuenta a sido editada correctamente", HttpStatus.OK);
+
+    }
+
+
 }

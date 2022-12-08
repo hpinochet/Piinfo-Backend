@@ -27,6 +27,9 @@ public class AccountService {
 
     // Crear cuenta (solo para prueba, no es parte del sistema)
     public Account save(Account entity){
+
+        entity.setPhone_number("+569" + entity.getPhone_number());
+
         Account nuevFactura = accountRepository.save(entity);
         return nuevFactura;
     }
@@ -244,5 +247,20 @@ public class AccountService {
         }
 
         return userAlert;
+    }
+
+    public void editAccount(String id, String name, String email, String password, String cellNumber) {
+
+        Optional<Account> obj = accountRepository.findById(id);
+        Account account = obj.get();
+
+        cellNumber = "+569" + cellNumber;
+
+        account.setUser_name(name);
+        account.setEmail(email);
+        account.setPassword(password);
+        account.setPhone_number(cellNumber);
+
+        accountRepository.save(account);
     }
 }
