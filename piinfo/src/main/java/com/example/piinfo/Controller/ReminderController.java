@@ -54,7 +54,7 @@ public class ReminderController {
     public ResponseEntity<String> doReminder(@PathVariable String id){
         String info = accountService.doReminder(id);
 
-        if(!info.equals("null")){
+        if(!info.equals("No hay recordatorio activo")){
             reminderService.putDone(info);
         }
 
