@@ -55,7 +55,7 @@ public class Product_UserService {
 
         List<Product_User> product_users = product_userRepository.findAll();
 
-        String info = "No se a sincronizado un usuario al dispositivo";
+        String info = "No se ha sincronizado un usuario al dispositivo";
 
         for (Product_User p : product_users) {
             if(p.getProduct_number().equals(product_number)){
