@@ -71,8 +71,8 @@ public class AlertService {
 
     public void sendAlert(String numberCell, String alert_description) {
 
-        String ACCOUNT_SID = "AC78c7287cc82f96e1ac6d2c0d55f74c04";
-        String AUTH_TOKEN = "5e7f428c59068a70630f5570d3a43b79";
+        String ACCOUNT_SID = "ACa389319651793e5c07eb6b3998fdd924";
+        String AUTH_TOKEN = "6d3cd15ab23ba721b1389e62be102cc1";
 
         String numberCellMessage = "whatsapp:" + numberCell;
         String botMessage = "ALERTA: Se ha detectado una alerta de tipo " + alert_description + " en el hogar";
